@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list_app/constants/constants.dart';
 import 'package:todo_list_app/controller/controller.dart';
 import 'package:todo_list_app/model/todo_item.dart';
 import 'package:todo_list_app/notifications/notifications.dart';
@@ -89,7 +90,10 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+          style: TextStyleConstants.textStyleLarge,
+        ),
         actions: <Widget>[
           Container(
             margin: const EdgeInsets.all(10),
@@ -105,28 +109,29 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
             ),
-          )
+          ),
         ],
       ),
       body: Column(
         children: [
           Expanded(
-              child: NotificationListener<CustomNotification>(
-            onNotification: (_) {
-              setState(() {});
-              return true;
-            },
-            child: ListView.builder(
-                controller: _scrollController,
-                key: const PageStorageKey<String>('page'),
-                itemCount: widget._controller.getItems().length,
-                itemBuilder: (context, index) {
-                  return ToDoItemWidget(
-                      widget._controller.getItemAtIndex(index),
-                      widget._controller,
-                      context);
-                }),
-          )),
+            child: NotificationListener<CustomNotification>(
+              onNotification: (_) {
+                setState(() {});
+                return true;
+              },
+              child: ListView.builder(
+                  controller: _scrollController,
+                  key: const PageStorageKey<String>('page'),
+                  itemCount: widget._controller.getItems().length,
+                  itemBuilder: (context, index) {
+                    return ToDoItemWidget(
+                        widget._controller.getItemAtIndex(index),
+                        widget._controller,
+                        context);
+                  }),
+            ),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton.small(
