@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list_app/controller/controller.dart';
 import 'package:todo_list_app/model/todo_item.dart';
-import 'package:todo_list_app/notifications/deleted_item_notification.dart';
+import 'package:todo_list_app/notifications/notifications.dart';
 import 'package:todo_list_app/repository/repository.dart';
 import 'package:todo_list_app/repository/todo_items_repository.dart';
 import 'package:todo_list_app/widgets/todoItemWidget/todo_item_widget.dart';
@@ -111,8 +111,8 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children: [
           Expanded(
-              child: NotificationListener<DeletedItemNotification>(
-            onNotification: (deletedItemNotification) {
+              child: NotificationListener<CustomNotification>(
+            onNotification: (_) {
               setState(() {});
               return true;
             },
@@ -123,7 +123,8 @@ class _HomePageState extends State<HomePage> {
                 itemBuilder: (context, index) {
                   return ToDoItemWidget(
                       widget._controller.getItemAtIndex(index),
-                      widget._controller);
+                      widget._controller,
+                      context);
                 }),
           )),
         ],

@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list_app/controller/controller.dart';
 import 'package:todo_list_app/model/todo_item.dart';
-import 'package:todo_list_app/notifications/deleted_item_notification.dart';
+import 'package:todo_list_app/notifications/notifications.dart';
+import 'package:todo_list_app/widgets/editTodoItemWidget/edit_todo_item_widget.dart';
 
 class ToDoItemWidget extends StatefulWidget {
   late final ToDoItem _toDoItem;
   late final Controller _toDoItemsController;
+  late final BuildContext _parentContext;
 
-  ToDoItemWidget(ToDoItem toDoItem, Controller toDoItemsController, {super.key}) {
+  ToDoItemWidget(ToDoItem toDoItem, Controller toDoItemsController, BuildContext parentContext, {super.key}) {
     _toDoItem = toDoItem;
     _toDoItemsController = toDoItemsController;
+    _parentContext = parentContext;
   }
 
   @override
@@ -32,9 +35,7 @@ class _ToDoItemWidgetState extends State<ToDoItemWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               IconButton(icon: const Icon(Icons.edit), onPressed: () {
-                setState(() {
-                  widget._toDoItem.changeDescription("Changed ${widget._toDoItem.getID()}");
-                });
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditItemScreen(widget._toDoItem, widget._parentContext)));
               }),
               IconButton(icon: const Icon(Icons.delete), onPressed: () {
                 widget._toDoItemsController.removeItem(widget._toDoItem); // Delete the item.
